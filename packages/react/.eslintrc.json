@@ -1,0 +1,6 @@
+{
+  "extends": "@ignite-ui/eslint-config",
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "off" }]
+  }
+}
