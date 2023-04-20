@@ -25,6 +25,7 @@ jobs:
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: luizfm
+          TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_TOKEN }}
 
       - name: Deploy storybook
         working-directory: ./packages/docs
