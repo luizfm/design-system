@@ -1,4 +1,4 @@
 {
-  "extends": "@ignite-ui/ts-config/base.json",
+  "extends": "@luizfm-ui/ts-config/base.json",
   "include": ["src"]
 }

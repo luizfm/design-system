@@ -1,3 +1,3 @@
-const baseConfig = require('@ignite-ui/prettier-config')
+const baseConfig = require(@luizfm-ui/prettier-config')
 
 module.exports = baseConfig

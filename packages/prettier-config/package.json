@@ -1,5 +1,5 @@
 {
-  "name": "@ignite-ui/prettier-config",
+  "name": "@luizfm-ui/prettier-config",
   "private": true,
   "license": "MIT",
   "main": "index.js",
