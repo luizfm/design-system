@@ -23,8 +23,8 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-          TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TOKEN: ETNFzYnWzSYyBNP0EOzS6NOM
+          TURBO_TEAM: CVMIESTEAM
 
       - name: Deploy storybook
         working-directory: ./packages/docs
