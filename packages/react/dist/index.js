@@ -67,7 +67,16 @@ __export(src_exports, {
   MultiStep: () => MultiStep,
   Text: () => Text,
   TextInput: () => TextInput,
-  Textarea: () => Textarea
+  Textarea: () => Textarea,
+  Toast: () => Toast2,
+  config: () => config,
+  createTheme: () => createTheme,
+  css: () => css,
+  getCssText: () => getCssText,
+  globalCss: () => globalCss,
+  keyframes: () => keyframes,
+  styled: () => styled,
+  theme: () => theme
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -173,7 +182,7 @@ var {
 
 // src/components/Box.ts
 var Box = styled("div", {
-  padding: "$4",
+  padding: "$6",
   borderRadius: "$md",
   backgroundColor: "$gray800",
   border: "1px solid $gray600"
@@ -243,8 +252,8 @@ var Avatar = __toESM(require("@radix-ui/react-avatar"));
 var AvatarContainer = styled(Avatar.Root, {
   borderRadius: "$full",
   display: "inline-block",
-  width: "$12",
-  height: "$12",
+  width: "$16",
+  height: "$16",
   overflow: "hidden"
 });
 var AvatarImage = styled(Avatar.Image, {
@@ -295,6 +304,9 @@ var Button = styled("button", {
   cursor: "pointer",
   "&:disabled": {
     cursor: "not-allowed"
+  },
+  "&:focus": {
+    boxShadow: "0 0 0 2px $colors$gray100"
   },
   svg: {
     height: "$4",
@@ -350,21 +362,36 @@ var Button = styled("button", {
 });
 Button.displayName = "Button";
 
+// src/components/TextInput/index.tsx
+var import_react2 = require("react");
+
 // src/components/TextInput/styles.ts
 var TextInputContainer = styled("div", {
   backgroundColor: "$gray900",
-  padding: "$3 $4",
   borderRadius: "$sm",
   boxSizing: "border-box",
   border: "2px solid $gray900",
   display: "flex",
-  alignItems: "baseline",
+  alignItems: "center",
+  variants: {
+    size: {
+      sm: {
+        padding: "$2 $3"
+      },
+      md: {
+        padding: "$3 $4"
+      }
+    }
+  },
   "&:has(input:focus)": {
     borderColor: "$ignite300"
   },
   "&:has(input:disabled)": {
     opacity: 0.5,
     cursor: "not-allowed"
+  },
+  defaultVariants: {
+    size: "md"
   }
 });
 var Prefix = styled("span", {
@@ -387,20 +414,20 @@ var Input = styled("input", {
   "&:disabled": {
     cursor: "not-allowed"
   },
-  "&:placeholder": {
+  "&::placeholder": {
     color: "$gray400"
   }
 });
 
 // src/components/TextInput/index.tsx
 var import_jsx_runtime2 = require("react/jsx-runtime");
-function TextInput(_a) {
+var TextInput = (0, import_react2.forwardRef)((_a, ref) => {
   var _b = _a, { prefix } = _b, inputProps = __objRest(_b, ["prefix"]);
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(TextInputContainer, { children: [
     Boolean(prefix) && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Prefix, { children: prefix }),
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, __spreadValues({}, inputProps))
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, __spreadValues({ ref }, inputProps))
   ] });
-}
+});
 TextInput.displayName = "TextInput";
 
 // src/components/Textarea.ts
@@ -452,7 +479,7 @@ var CheckboxContainer = styled(Checkbox.Root, {
   '&[data-state="checked"]': {
     backgroundColor: "$ignite300"
   },
-  "&:focus": {
+  '&:focus, &[data-state="checked"]': {
     border: "2px solid $ignite300"
   }
 });
@@ -534,6 +561,110 @@ function MultiStep({ size, currentStep = 1 }) {
   ] });
 }
 MultiStep.displayName = "MultiStep";
+
+// src/components/Toast/index.tsx
+var import_react_toast = require("@radix-ui/react-toast");
+
+// src/components/Toast/styles.ts
+var Toast = __toESM(require("@radix-ui/react-toast"));
+var slideIn2 = keyframes({
+  from: {
+    transform: "translateX(calc(100% + 25px))"
+  },
+  to: {
+    transform: "translateX(0)"
+  }
+});
+var hide = keyframes({
+  from: {
+    opacity: 1
+  },
+  to: {
+    opacity: 0
+  }
+});
+var ToastContainer = styled(Toast.Root, {
+  backgroundColor: "$gray800",
+  padding: "$3 $12 $3 $5",
+  display: "flex",
+  flexDirection: "column",
+  rowGap: "$1",
+  position: "relative",
+  borderRadius: "$sm",
+  border: "1px solid $gray600",
+  '&[data-state="open"]': {
+    animation: `${slideIn2} 150ms cubic-bezier(0.16, 1, 0.3, 1)`
+  },
+  '&[data-state="closed"]': {
+    animation: `${hide} 100ms ease-in`
+  }
+});
+var ToastTitle = styled(Toast.Title, {
+  color: "$white",
+  fontWeight: "$bold",
+  fontFamily: "$default"
+});
+var ToastDescription = styled(Toast.Description, {
+  color: "$gray200",
+  fontFamily: "$default",
+  fontSize: "$sm"
+});
+var ToastClose = styled(Toast.Close, {
+  position: "absolute",
+  right: "$5",
+  top: "$3",
+  cursor: "pointer"
+});
+var ToastViewport = styled(Toast.Viewport, {
+  position: "fixed",
+  bottom: 0,
+  right: 0,
+  display: "flex",
+  flexDirection: "column",
+  gap: "$3",
+  maxWidth: "100vw",
+  margin: 0,
+  listStyle: "none",
+  zIndex: 2,
+  outline: "none",
+  minWidth: "360px",
+  padding: "$5"
+});
+
+// src/components/Toast/index.tsx
+var import_react3 = require("react");
+var import_phosphor_react3 = require("phosphor-react");
+var import_jsx_runtime5 = require("react/jsx-runtime");
+function Toast2({
+  title,
+  description,
+  swipeDirection = "right",
+  openLabel,
+  onClick
+}) {
+  const [open, setOpen] = (0, import_react3.useState)(false);
+  const timeOutRef = (0, import_react3.useRef)(0);
+  const handleOpen = (0, import_react3.useCallback)(() => {
+    setOpen(false);
+    window.clearTimeout(timeOutRef.current);
+    timeOutRef.current = window.setTimeout(() => {
+      setOpen(true);
+      onClick == null ? void 0 : onClick();
+    }, 100);
+  }, [onClick]);
+  (0, import_react3.useEffect)(() => {
+    return () => clearTimeout(timeOutRef.current);
+  }, []);
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_react_toast.ToastProvider, { swipeDirection, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Button, { onClick: handleOpen, variant: "tertiary", children: openLabel }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(ToastContainer, { open, onOpenChange: setOpen, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastTitle, { children: title }),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastDescription, { children: description }),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastClose, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_phosphor_react3.X, { size: 20, weight: "bold", color: colors.gray200 }) })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastViewport, {})
+  ] });
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Avatar,
@@ -544,5 +675,14 @@ MultiStep.displayName = "MultiStep";
   MultiStep,
   Text,
   TextInput,
-  Textarea
+  Textarea,
+  Toast,
+  config,
+  createTheme,
+  css,
+  getCssText,
+  globalCss,
+  keyframes,
+  styled,
+  theme
 });
