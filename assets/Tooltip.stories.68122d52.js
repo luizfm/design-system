@@ -1,0 +1,2 @@
+import{e as t,d as o}from"./index.b66fa896.js";import{j as e}from"./jsx-runtime.99d1dfc5.js";import"./index.04f80077.js";import"./iframe.d8b56ed3.js";import"./index.c59414e8.js";const l={title:"Data Display/Tooltip",component:t,args:{trigger:e(o,{openLabel:"23",title:"Schedule arranged",description:"Scheduled on October 23",swipeDirection:"right"}),children:"This date is available to schedule something"}},n={},d=["Primary"];export{n as Primary,d as __namedExportsOrder,l as default};
+//# sourceMappingURL=Tooltip.stories.68122d52.js.map

@@ -1,0 +1,2 @@
+import{A as t}from"./index.b66fa896.js";import"./index.04f80077.js";import"./iframe.d8b56ed3.js";import"./index.c59414e8.js";import"./jsx-runtime.99d1dfc5.js";const p={title:"Data display/Avatar",component:t,args:{src:"https://www.github.com/luizfm.png",alt:"Luiz Fernando de Morais"},argTypes:{src:{control:{type:"text"}}}},c={},e={args:{src:void 0}},m=["Primary","WithFallback"];export{c as Primary,e as WithFallback,m as __namedExportsOrder,p as default};
+//# sourceMappingURL=Avatar.stories.72842ca5.js.map
