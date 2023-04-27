@@ -69,6 +69,7 @@ __export(src_exports, {
   TextInput: () => TextInput,
   Textarea: () => Textarea,
   Toast: () => Toast2,
+  Tooltip: () => Tooltip,
   config: () => config,
   createTheme: () => createTheme,
   css: () => css,
@@ -421,13 +422,15 @@ var Input = styled("input", {
 
 // src/components/TextInput/index.tsx
 var import_jsx_runtime2 = require("react/jsx-runtime");
-var TextInput = (0, import_react2.forwardRef)((_a, ref) => {
-  var _b = _a, { prefix } = _b, inputProps = __objRest(_b, ["prefix"]);
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(TextInputContainer, { children: [
-    Boolean(prefix) && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Prefix, { children: prefix }),
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, __spreadValues({ ref }, inputProps))
-  ] });
-});
+var TextInput = (0, import_react2.forwardRef)(
+  (_a, ref) => {
+    var _b = _a, { prefix } = _b, inputProps = __objRest(_b, ["prefix"]);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(TextInputContainer, { children: [
+      Boolean(prefix) && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Prefix, { children: prefix }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, __spreadValues({ ref }, inputProps))
+    ] });
+  }
+);
 TextInput.displayName = "TextInput";
 
 // src/components/Textarea.ts
@@ -635,35 +638,98 @@ var ToastViewport = styled(Toast.Viewport, {
 var import_react3 = require("react");
 var import_phosphor_react3 = require("phosphor-react");
 var import_jsx_runtime5 = require("react/jsx-runtime");
-function Toast2({
-  title,
-  description,
-  swipeDirection = "right",
-  openLabel,
-  onClick
-}) {
-  const [open, setOpen] = (0, import_react3.useState)(false);
-  const timeOutRef = (0, import_react3.useRef)(0);
-  const handleOpen = (0, import_react3.useCallback)(() => {
-    setOpen(false);
-    window.clearTimeout(timeOutRef.current);
-    timeOutRef.current = window.setTimeout(() => {
-      setOpen(true);
-      onClick == null ? void 0 : onClick();
-    }, 100);
-  }, [onClick]);
-  (0, import_react3.useEffect)(() => {
-    return () => clearTimeout(timeOutRef.current);
-  }, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_react_toast.ToastProvider, { swipeDirection, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Button, { onClick: handleOpen, variant: "tertiary", children: openLabel }),
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(ToastContainer, { open, onOpenChange: setOpen, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastTitle, { children: title }),
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastDescription, { children: description }),
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastClose, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_phosphor_react3.X, { size: 20, weight: "bold", color: colors.gray200 }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastViewport, {})
-  ] });
+var Toast2 = (0, import_react3.forwardRef)(
+  (_a, ref) => {
+    var _b = _a, {
+      title,
+      description,
+      swipeDirection = "right",
+      openLabel,
+      onClick
+    } = _b, restProps = __objRest(_b, [
+      "title",
+      "description",
+      "swipeDirection",
+      "openLabel",
+      "onClick"
+    ]);
+    const [open, setOpen] = (0, import_react3.useState)(false);
+    const timeOutRef = (0, import_react3.useRef)(0);
+    const handleOpen = (0, import_react3.useCallback)(() => {
+      setOpen(false);
+      window.clearTimeout(timeOutRef.current);
+      timeOutRef.current = window.setTimeout(() => {
+        setOpen(true);
+        onClick == null ? void 0 : onClick();
+      }, 100);
+    }, [onClick]);
+    (0, import_react3.useEffect)(() => {
+      return () => clearTimeout(timeOutRef.current);
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_react_toast.ToastProvider, { swipeDirection, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+        Button,
+        __spreadProps(__spreadValues({
+          onClick: handleOpen,
+          variant: "tertiary",
+          ref
+        }, restProps), {
+          children: openLabel
+        })
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(ToastContainer, { open, onOpenChange: setOpen, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastTitle, { children: title }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastDescription, { children: description }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastClose, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_phosphor_react3.X, { size: 20, weight: "bold", color: colors.gray200 }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(ToastViewport, {})
+    ] });
+  }
+);
+Toast2.displayName = "Toast";
+
+// src/components/Tooltip/styles.ts
+var RadixTooltip = __toESM(require("@radix-ui/react-tooltip"));
+var slideUpAndFade = keyframes({
+  from: {
+    opacity: 0,
+    transform: "translateY(2px)"
+  },
+  to: {
+    opacity: 1,
+    transform: "translate(0)"
+  }
+});
+var TooltipContainer = styled(RadixTooltip.Provider, {});
+var TooltipRoot = styled(RadixTooltip.Root, {});
+var TooltipPortal = styled(RadixTooltip.Portal, {});
+var TooltipContent = styled(RadixTooltip.Content, {
+  backgroundColor: "$gray900",
+  padding: "$3 $4",
+  color: "$gray100",
+  fontWeight: "$medium",
+  fontSize: "$sm",
+  borderRadius: "$sm",
+  '&[data-state="delayed-open"][data-side="bottom]': {
+    animation: `${slideUpAndFade} 400ms ease-in`
+  }
+});
+var TooltipTrigger = styled(RadixTooltip.Trigger, {});
+var TooltipArrow = styled(RadixTooltip.Arrow, {
+  fill: "$gray900"
+});
+
+// src/components/Tooltip/index.tsx
+var import_jsx_runtime6 = require("react/jsx-runtime");
+function Tooltip(_a) {
+  var _b = _a, { trigger, children } = _b, props = __objRest(_b, ["trigger", "children"]);
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TooltipContainer, __spreadProps(__spreadValues({}, props), { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(TooltipRoot, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TooltipTrigger, { asChild: true, children: trigger }),
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TooltipPortal, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(TooltipContent, { children: [
+      children,
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TooltipArrow, {})
+    ] }) })
+  ] }) }));
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -677,6 +743,7 @@ function Toast2({
   TextInput,
   Textarea,
   Toast,
+  Tooltip,
   config,
   createTheme,
   css,

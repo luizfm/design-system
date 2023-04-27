@@ -5,13 +5,26 @@ export interface TextInputProps extends ComponentProps<typeof Input> {
   prefix?: string
 }
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({ prefix, ...inputProps }, ref)  => {
-  return (
-    <TextInputContainer>
-      {Boolean(prefix) && <Prefix>{prefix}</Prefix>}
-      <Input ref={ref} {...inputProps} />
-    </TextInputContainer>
-  )
-})
+// export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+//   ({ prefix, ...inputProps }, ref) => {
+//     return (
+//       <TextInputContainer>
+//         {Boolean(prefix) && <Prefix>{prefix}</Prefix>}
+//         <Input ref={ref} {...inputProps} />
+//       </TextInputContainer>
+//     )
+//   },
+// )
+
+export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+  ({ prefix, ...inputProps }, ref) => {
+    return (
+      <TextInputContainer>
+        {Boolean(prefix) && <Prefix>{prefix}</Prefix>}
+        <Input ref={ref} {...inputProps} />
+      </TextInputContainer>
+    )
+  },
+)
 
 TextInput.displayName = 'TextInput'

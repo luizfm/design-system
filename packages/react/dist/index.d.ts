@@ -1,11 +1,11 @@
 import * as _stitches_react_types_styled_component from '@stitches/react/types/styled-component';
 import * as _stitches_react_types_css_util from '@stitches/react/types/css-util';
 import * as react from 'react';
-import { ComponentProps, ElementType } from 'react';
+import react__default, { ComponentProps, ElementType } from 'react';
 import * as Avatar$1 from '@radix-ui/react-avatar';
 import * as Checkbox$1 from '@radix-ui/react-checkbox';
-import * as Toast$1 from '@radix-ui/react-toast';
 import { SwipeDirection } from '@radix-ui/react-toast';
+import * as RadixTooltip from '@radix-ui/react-tooltip';
 import * as _stitches_react_types_theme from '@stitches/react/types/theme';
 import * as _stitches_react_types_css from '@stitches/react/types/css';
 import * as _stitches_react_types_stitches from '@stitches/react/types/stitches';
@@ -1886,7 +1886,16 @@ declare namespace MultiStep {
     var displayName: string;
 }
 
-declare const ToastContainer: _stitches_react_types_styled_component.StyledComponent<react.ForwardRefExoticComponent<Toast$1.ToastProps & react.RefAttributes<HTMLLIElement>>, {}, {}, _stitches_react_types_css_util.CSS<{}, {
+interface ToastProps extends ComponentProps<typeof Button> {
+    description?: string;
+    title: string;
+    openLabel: string;
+    onClick?: () => void;
+    swipeDirection: SwipeDirection;
+}
+declare const Toast: react.ForwardRefExoticComponent<Omit<ToastProps, "ref"> & react.RefAttributes<HTMLButtonElement>>;
+
+declare const TooltipContainer: _stitches_react_types_styled_component.StyledComponent<react.FC<RadixTooltip.TooltipProviderProps>, {}, {}, _stitches_react_types_css_util.CSS<{}, {
     colors: {
         white: string;
         black: string;
@@ -2089,14 +2098,10 @@ declare const ToastContainer: _stitches_react_types_styled_component.StyledCompo
     zIndex: "zIndices";
 }, {}>>;
 
-interface ToastProps extends ComponentProps<typeof ToastContainer> {
-    description?: string;
-    title: string;
-    openLabel: string;
-    onClick?: () => void;
-    swipeDirection: SwipeDirection;
+interface TooltipProps extends ComponentProps<typeof TooltipContainer> {
+    trigger: react__default.ReactElement;
 }
-declare function Toast({ title, description, swipeDirection, openLabel, onClick, }: ToastProps): JSX.Element;
+declare function Tooltip({ trigger, children, ...props }: TooltipProps): JSX.Element;
 
 declare const styled: <Type extends _stitches_react_types_util.Function | keyof JSX.IntrinsicElements | react.ComponentType<any>, Composers extends (string | _stitches_react_types_util.Function | react.ComponentType<any> | {
     [name: string]: unknown;
@@ -3790,4 +3795,4 @@ declare const config: {
     utils: {};
 };
 
-export { Avatar, AvatarProps, Box, BoxProps, Button, ButtonProps, Checkbox, CheckboxProps, Heading, HeadingProps, MultiStep, MultiStepProps, Text, TextInput, TextInputProps, TextProps, Textarea, TextareaProps, Toast, ToastProps, config, createTheme, css, getCssText, globalCss, keyframes, styled, theme };
+export { Avatar, AvatarProps, Box, BoxProps, Button, ButtonProps, Checkbox, CheckboxProps, Heading, HeadingProps, MultiStep, MultiStepProps, Text, TextInput, TextInputProps, TextProps, Textarea, TextareaProps, Toast, ToastProps, Tooltip, TooltipProps, config, createTheme, css, getCssText, globalCss, keyframes, styled, theme };

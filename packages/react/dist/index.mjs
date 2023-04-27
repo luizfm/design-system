@@ -371,13 +371,15 @@ var Input = styled("input", {
 
 // src/components/TextInput/index.tsx
 import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
-var TextInput = forwardRef((_a, ref) => {
-  var _b = _a, { prefix } = _b, inputProps = __objRest(_b, ["prefix"]);
-  return /* @__PURE__ */ jsxs2(TextInputContainer, { children: [
-    Boolean(prefix) && /* @__PURE__ */ jsx2(Prefix, { children: prefix }),
-    /* @__PURE__ */ jsx2(Input, __spreadValues({ ref }, inputProps))
-  ] });
-});
+var TextInput = forwardRef(
+  (_a, ref) => {
+    var _b = _a, { prefix } = _b, inputProps = __objRest(_b, ["prefix"]);
+    return /* @__PURE__ */ jsxs2(TextInputContainer, { children: [
+      Boolean(prefix) && /* @__PURE__ */ jsx2(Prefix, { children: prefix }),
+      /* @__PURE__ */ jsx2(Input, __spreadValues({ ref }, inputProps))
+    ] });
+  }
+);
 TextInput.displayName = "TextInput";
 
 // src/components/Textarea.ts
@@ -582,38 +584,107 @@ var ToastViewport = styled(Toast.Viewport, {
 });
 
 // src/components/Toast/index.tsx
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  forwardRef as forwardRef2,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import { X } from "phosphor-react";
 import { jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
-function Toast2({
-  title,
-  description,
-  swipeDirection = "right",
-  openLabel,
-  onClick
-}) {
-  const [open, setOpen] = useState(false);
-  const timeOutRef = useRef(0);
-  const handleOpen = useCallback(() => {
-    setOpen(false);
-    window.clearTimeout(timeOutRef.current);
-    timeOutRef.current = window.setTimeout(() => {
-      setOpen(true);
-      onClick == null ? void 0 : onClick();
-    }, 100);
-  }, [onClick]);
-  useEffect(() => {
-    return () => clearTimeout(timeOutRef.current);
-  }, []);
-  return /* @__PURE__ */ jsxs4(ToastProvider, { swipeDirection, children: [
-    /* @__PURE__ */ jsx5(Button, { onClick: handleOpen, variant: "tertiary", children: openLabel }),
-    /* @__PURE__ */ jsxs4(ToastContainer, { open, onOpenChange: setOpen, children: [
-      /* @__PURE__ */ jsx5(ToastTitle, { children: title }),
-      /* @__PURE__ */ jsx5(ToastDescription, { children: description }),
-      /* @__PURE__ */ jsx5(ToastClose, { asChild: true, children: /* @__PURE__ */ jsx5(X, { size: 20, weight: "bold", color: colors.gray200 }) })
-    ] }),
-    /* @__PURE__ */ jsx5(ToastViewport, {})
-  ] });
+var Toast2 = forwardRef2(
+  (_a, ref) => {
+    var _b = _a, {
+      title,
+      description,
+      swipeDirection = "right",
+      openLabel,
+      onClick
+    } = _b, restProps = __objRest(_b, [
+      "title",
+      "description",
+      "swipeDirection",
+      "openLabel",
+      "onClick"
+    ]);
+    const [open, setOpen] = useState(false);
+    const timeOutRef = useRef(0);
+    const handleOpen = useCallback(() => {
+      setOpen(false);
+      window.clearTimeout(timeOutRef.current);
+      timeOutRef.current = window.setTimeout(() => {
+        setOpen(true);
+        onClick == null ? void 0 : onClick();
+      }, 100);
+    }, [onClick]);
+    useEffect(() => {
+      return () => clearTimeout(timeOutRef.current);
+    }, []);
+    return /* @__PURE__ */ jsxs4(ToastProvider, { swipeDirection, children: [
+      /* @__PURE__ */ jsx5(
+        Button,
+        __spreadProps(__spreadValues({
+          onClick: handleOpen,
+          variant: "tertiary",
+          ref
+        }, restProps), {
+          children: openLabel
+        })
+      ),
+      /* @__PURE__ */ jsxs4(ToastContainer, { open, onOpenChange: setOpen, children: [
+        /* @__PURE__ */ jsx5(ToastTitle, { children: title }),
+        /* @__PURE__ */ jsx5(ToastDescription, { children: description }),
+        /* @__PURE__ */ jsx5(ToastClose, { asChild: true, children: /* @__PURE__ */ jsx5(X, { size: 20, weight: "bold", color: colors.gray200 }) })
+      ] }),
+      /* @__PURE__ */ jsx5(ToastViewport, {})
+    ] });
+  }
+);
+Toast2.displayName = "Toast";
+
+// src/components/Tooltip/styles.ts
+import * as RadixTooltip from "@radix-ui/react-tooltip";
+var slideUpAndFade = keyframes({
+  from: {
+    opacity: 0,
+    transform: "translateY(2px)"
+  },
+  to: {
+    opacity: 1,
+    transform: "translate(0)"
+  }
+});
+var TooltipContainer = styled(RadixTooltip.Provider, {});
+var TooltipRoot = styled(RadixTooltip.Root, {});
+var TooltipPortal = styled(RadixTooltip.Portal, {});
+var TooltipContent = styled(RadixTooltip.Content, {
+  backgroundColor: "$gray900",
+  padding: "$3 $4",
+  color: "$gray100",
+  fontWeight: "$medium",
+  fontSize: "$sm",
+  borderRadius: "$sm",
+  '&[data-state="delayed-open"][data-side="bottom]': {
+    animation: `${slideUpAndFade} 400ms ease-in`
+  }
+});
+var TooltipTrigger = styled(RadixTooltip.Trigger, {});
+var TooltipArrow = styled(RadixTooltip.Arrow, {
+  fill: "$gray900"
+});
+
+// src/components/Tooltip/index.tsx
+import { jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
+function Tooltip(_a) {
+  var _b = _a, { trigger, children } = _b, props = __objRest(_b, ["trigger", "children"]);
+  return /* @__PURE__ */ jsx6(TooltipContainer, __spreadProps(__spreadValues({}, props), { children: /* @__PURE__ */ jsxs5(TooltipRoot, { children: [
+    /* @__PURE__ */ jsx6(TooltipTrigger, { asChild: true, children: trigger }),
+    /* @__PURE__ */ jsx6(TooltipPortal, { children: /* @__PURE__ */ jsxs5(TooltipContent, { children: [
+      children,
+      /* @__PURE__ */ jsx6(TooltipArrow, {})
+    ] }) })
+  ] }) }));
 }
 export {
   Avatar2 as Avatar,
@@ -626,6 +697,7 @@ export {
   TextInput,
   Textarea,
   Toast2 as Toast,
+  Tooltip,
   config,
   createTheme,
   css,
